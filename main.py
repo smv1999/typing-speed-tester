@@ -3,6 +3,7 @@ from curses import wrapper
 import time
 import random
 
+
 def start_screen(stdscr):
     stdscr.clear()
     stdscr.addstr("Welcome to the Speed Typing Test!")
@@ -21,10 +22,12 @@ def display_text(stdscr, target_text, current_text, wpm=0):
             color = curses.color_pair(2)
         stdscr.addstr(0, i, char, color)
 
+
 def load_text():
     with open("text.txt", 'r') as f:
-        lines =  f.readlines()
+        lines = f.readlines()
         return random.choice(lines).strip()
+
 
 def wpm_test(stdscr):
     target_text = load_text()
@@ -40,7 +43,7 @@ def wpm_test(stdscr):
         stdscr.clear()
         display_text(stdscr, target_text, current_text, wpm)
         stdscr.refresh()
-                
+
         if "".join(current_text) == target_text:
             stdscr.nodelay(False)
             break
@@ -59,7 +62,7 @@ def wpm_test(stdscr):
                 current_text.pop()
         elif len(current_text) < len(target_text):
             current_text.append(key)
-        stdscr.refresh()
+
 
 def main(stdscr):
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -69,7 +72,8 @@ def main(stdscr):
     start_screen(stdscr)
     while True:
         wpm_test(stdscr)
-        stdscr.addstr(2, 0, "You completed the text! Press any key to continue...")
+        stdscr.addstr(
+            2, 0, "You completed the text! Press any key to continue...")
         key = stdscr.getkey()
         if ord(key) == 27:
             break
